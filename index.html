@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Zeno Store - Premium Amazon Affiliate Shop with curated, high-quality products at exclusive prices.">
+    <title>Zeno Store - Premium Amazon Affiliate Shopping</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background-color: #f8f9fa;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #2c1b6b 0%, #6d28d9 100%);
+        }
+        .product-card {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border-radius: 12px;
+        }
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.15);
+        }
+        .deal-timer {
+            background: linear-gradient(90deg, #f43f5e, #fb923c);
+        }
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(60px);
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .trust-badge {
+            filter: grayscale(0.3);
+            transition: filter 0.4s ease, transform 0.4s ease;
+        }
+        .trust-badge:hover {
+            filter: grayscale(0);
+            transform: scale(1.05);
+        }
+        .cta-button {
+            background: linear-gradient(90deg, #7c3aed, #3b82f6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .section-divider {
+            background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.15), transparent);
+            height: 2px;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #f43f5e;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow-md fixed w-full top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <h1 class="text-3xl font-bold text-purple-900" style="font-family: 'Playfair Display', serif;">Zeno Store</h1>
+            </div>
+            <nav class="space-x-8">
+                <a href="#products" class="nav-link text-purple-900 hover:text-purple-600 font-semibold">Shop</a>
+                <a href="#deals" class="nav-link text-purple-900 hover:text-purple-600 font-semibold">Deals</a>
+                <a href="#why-zeno" class="nav-link text-purple-900 hover:text-purple-600 font-semibold">Why Zeno?</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white pt-32 pb-20 relative">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl md:text-6xl font-bold mb-6" style="font-family: 'Playfair Display', serif;">Elevate Your Shopping with Zeno Store</h2>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Discover curated Amazon products designed for quality and value, delivered with unmatched elegance.</p>
+            <a href="#products" class="cta-button inline-block text-white px-10 py-4 rounded-full font-semibold text-lg">Explore Now</a>
+        </div>
+        <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-gray-50 to-transparent"></div>
+    </section>
+
+    <!-- Trust Signals -->
+    <section class="bg-white py-12">
+        <div class="container mx-auto px-6 flex flex-wrap justify-center gap-12">
+            <div class="flex items-center space-x-3 trust-badge">
+                <img src="https://via.placeholder.com/50" alt="Secure Payment" class="w-12 h-12">
+                <span class="text-gray-700 font-semibold">Secure Payments</span>
+            </div>
+            <div class="flex items-center space-x-3 trust-badge">
+                <img src="https://via.placeholder.com/50" alt="Fast Shipping" class="w-12 h-12">
+                <span class="text-gray-700 font-semibold">Fast Shipping</span>
+            </div>
+            <div class="flex items-center space-x-3 trust-badge">
+                <img src="https://via.placeholder.com/50" alt="Trusted by Thousands" class="w-12 h-12">
+                <span class="text-gray-700 font-semibold">Trusted by Thousands</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section id="products" class="container mx-auto px-6 py-16">
+        <h2 class="text-4xl font-bold text-center mb-12 text-purple-900" style="font-family: 'Playfair Display', serif;">Curated Favorites</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Product Card 1 -->
+            <div class="product-card bg-white overflow-hidden animate-on-scroll">
+                <img src="https://via.placeholder.com/300x200" alt="Product 1" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Premium Wireless Headphones</h3>
+                    <p class="text-gray-600 mb-4">Crystal-clear audio with advanced noise cancellation for an immersive experience.</p>
+                    <p class="text-lg font-bold text-purple-900 mb-4">$99.99 <span class="line-through text-gray-400">$129.99</span></p>
+                    <a href="https://www.amazon.com/your-affiliate-link-1" target="_blank" class="cta-button inline-block text-white px-6 py-2 rounded-full font-semibold">Shop Now</a>
+                </div>
+            </div>
+
+            <!-- Product Card 2 -->
+            <div class="product-card bg-white overflow-hidden animate-on-scroll">
+                <img src="https://via.placeholder.com/300x200" alt="Product 2" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Smart Home Assistant</h3>
+                    <p class="text-gray-600 mb-4">Seamless voice control for your smart home, with top-tier compatibility.</p>
+                    <p class="text-lg font-bold text-purple-900 mb-4">$49.99 <span class="line-through text-gray-400">$69.99</span></p>
+                    <a href="https://www.amazon.com/your-affiliate-link-2" target="_blank" class="cta-button inline-block text-white px-6 py-2 rounded-full font-semibold">Shop Now</a>
+                </div>
+            </div>
+
+            <!-- Product Card 3 -->
+            <div class="product-card bg-white overflow-hidden animate-on-scroll">
+                <img src="https://via.placeholder.com/300x200" alt="Product 3" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">4K Ultra HD Smart TV</h3>
+                    <p class="text-gray-600 mb-4">Vivid visuals and smart features for an unparalleled viewing experience.</p>
+                    <p class="text-lg font-bold text-purple-900 mb-4">$399.99 <span class="line-through text-gray-400">$499.99</span></p>
+                    <a href="https://www.amazon.com/your-affiliate-link-3" target="_blank" class="cta-button inline-block text-white px-6 py-2 rounded-full font-semibold">Shop Now</a>
+                </div>
+            </div>
+
+            <!-- Product Card 4 -->
+            <div class="product-card bg-white overflow-hidden animate-on-scroll">
+                <img src="https://via.placeholder.com/300x200" alt="Product 4" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Fitness Tracker Pro</h3>
+                    <p class="text-gray-600 mb-4">Advanced sensors to monitor your health and fitness goals with precision.</p>
+                    <p class="text-lg font-bold text-purple-900 mb-4">$79.99 <span class="line-through text-gray-400">$99.99</span></p>
+                    <a href="https://www.amazon.com/your-affiliate-link-4" target="_blank" class="cta-button inline-block text-white px-6 py-2 rounded-full font-semibold">Shop Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-12">
+            <a href="#deals" class="text-purple-900 font-semibold hover:underline text-lg">Explore More Products</a>
+        </div>
+    </section>
+
+    <!-- Limited Time Deals -->
+    <section id="deals" class="bg-gray-100 py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 text-purple-900" style="font-family: 'Playfair Display', serif;">Exclusive Deals</h2>
+            <div class="deal-timer text-center text-white py-4 rounded-lg mb-8">
+                <p class="text-xl font-semibold">Act Fast! Deals End in: <span id="timer">23:59:59</span></p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Deal Card 1 -->
+                <div class="product-card bg-white overflow-hidden animate-on-scroll">
+                    <img src="https://via.placeholder.com/300x200" alt="Deal 1" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Portable Bluetooth Speaker</h3>
+                        <p class="text-gray-600 mb-4">Rich sound for any adventure, now at an unbeatable price.</p>
+                        <p class="text-lg font-bold text-rose-600 mb-4">$29.99 <span class="line-through text-gray-400">$59.99</span></p>
+                        <a href="https://www.amazon.com/your-affiliate-link-5" target="_blank" class="inline-block bg-rose-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-rose-700 transition">Grab Deal</a>
+                    </div>
+                </div>
+
+                <!-- Deal Card 2 -->
+                <div class="product-card bg-white overflow-hidden animate-on-scroll">
+                    <img src="https://via.placeholder.com/300x200" alt="Deal 2" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Wireless Charger</h3>
+                        <p class="text-gray-600 mb-4">Fast, reliable charging for all your devices, limited stock.</p>
+                        <p class="text-lg font-bold text-rose-600 mb-4">$19.99 <span class="line-through text-gray-400">$39.99</span></p>
+                        <a href="https://www.amazon.com/your-affiliate-link-6" target="_blank" class="inline-block bg-rose-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-rose-700 transition">Grab Deal</a>
+                    </div>
+                </div>
+
+                <!-- Deal Card 3 -->
+                <div class="product-card bg-white overflow-hidden animate-on-scroll">
+                    <img src="https://via.placeholder.com/300x200" alt="Deal 3" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Smart Light Bulbs (Pack of 2)</h3>
+                        <p class="text-gray-600 mb-4">Voice-controlled lighting at a 50% discount, only while supplies last.</p>
+                        <p class="text-lg font-bold text-rose-600 mb-4">$24.99 <span class="line-through text-gray-400">$49.99</span></p>
+                        <a href="https://www.amazon.com/your-affiliate-link-7" target="_blank" class="inline-block bg-rose-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-rose-700 transition">Grab Deal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Zeno Section -->
+    <section id="why-zeno" class="container mx-auto px-6 py-16">
+        <h2 class="text-4xl font-bold text-center mb-12 text-purple-900" style="font-family: 'Playfair Display', serif;">Why Choose Zeno Store?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center animate-on-scroll">
+                <img src="https://via.placeholder.com/80" alt="Curated Quality" class="w-20 h-20 mx-auto mb-4">
+                <h3 class="text-xl font-semibold mb-2 text-gray-800">Handpicked Excellence</h3>
+                <p class="text-gray-600">We curate only the finest Amazon products for unmatched quality.</p>
+            </div>
+            <div class="text-center animate-on-scroll">
+                <img src="https://via.placeholder.com/80" alt="Unbeatable Deals" class="w-20 h-20 mx-auto mb-4">
+                <h3 class="text-xl font-semibold mb-2 text-gray-800">Exclusive Savings</h3>
+                <p class="text-gray-600">Unlock limited-time deals designed to maximize your value.</p>
+            </div>
+            <div class="text-center animate-on-scroll">
+                <img src="https://via.placeholder.com/80" alt="Trusted by Shoppers" class="w-20 h-20 mx-auto mb-4">
+                <h3 class="text-xl font-semibold mb-2 text-gray-800">Trusted Reliability</h3>
+                <p class="text-gray-600">Shop confidently with Amazon’s trusted delivery and returns.</p>
+            </div>
+        </div>
+        <div class="text-center mt-12">
+            <a href="#products" class="cta-button inline-block text-white px-10 py-4 rounded-full font-semibold text-lg">Start Shopping</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-purple-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4" style="font-family: 'Playfair Display', serif;">Zeno Store</h3>
+                    <p class="text-sm">Your premier destination for curated Amazon products and exclusive deals.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#products" class="text-sm hover:underline">Shop Products</a></li>
+                        <li><a href="#deals" class="text-sm hover:underline">Exclusive Deals</a></li>
+                        <li><a href="#why-zeno" class="text-sm hover:underline">Why Zeno?</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Legal</h3>
+                    <p class="text-sm">Zeno Store is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com.</p>
+                </div>
+            </div>
+            <div class="section-divider my-8"></div>
+            <p class="text-center text-sm">© 2025 Zeno Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate elements on scroll
+        gsap.utils.toArray('.animate-on-scroll').forEach((element) => {
+            gsap.fromTo(
+                element,
+                { opacity: 0, y: 60 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse',
+                    },
+                }
+            );
+        });
+
+        // Countdown Timer for Deals
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            let timeLeft = 24 * 60 * 60; // 24 hours in seconds
+            setInterval(() => {
+                if (timeLeft <= 0) {
+                    timeLeft = 24 * 60 * 60; // Reset timer
+                }
+                timeLeft--;
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+                timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+        startTimer();
+
+        // Smooth Scroll for Navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Track Clicks for Analytics
+        document.querySelectorAll('.product-card a').forEach(link => {
+            link.addEventListener('click', () => {
+                console.log('Product link clicked:', link.href);
+                // Add analytics tracking (e.g., Google Analytics) here
+            });
+        });
+    </script>
+</body>
+</html>
