@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,13 +30,9 @@
             background: linear-gradient(90deg, #f43f5e, #fb923c);
         }
         .animate-on-scroll {
-            opacity: 0;
+            /* This class only defines the initial animation state for GSAP */
+            /* Elements will be visible by default before GSAP animates them from this state */
             transform: translateY(60px);
-        }
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.8s ease, transform 0.8s ease;
         }
         .trust-badge {
             filter: grayscale(0.3);
@@ -74,6 +70,77 @@
         .nav-link:hover::after {
             width: 100%;
         }
+
+        /* Carousel specific styles - refined for better responsiveness and explicit sizing */
+        .carousel-container {
+            display: flex;
+            overflow-x: auto; /* Allow horizontal scrolling if items overflow, for debugging/manual scroll */
+            scroll-behavior: smooth; /* Smooth scroll for navigation */
+            -webkit-overflow-scrolling: touch; /* for smoother scrolling on iOS */
+            gap: 2rem; /* Consistent gap between items */
+            padding-bottom: 1rem; /* Space for scrollbar */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #888 #f1f1f1; /* Firefox */
+        }
+
+        /* Custom scrollbar for Webkit browsers */
+        .carousel-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .carousel-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .carousel-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .carousel-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+
+        .carousel-item {
+            flex: 0 0 auto; /* Do not grow, do not shrink, base width defined below */
+            scroll-snap-align: start; /* Helps with native scrolling, snaps to start of item */
+            width: calc(33.33% - (2 * 2rem / 3)); /* Default for large screens (3 items with 2 gaps) */
+        }
+        @media (max-width: 1024px) { /* Tablet/smaller desktop */
+            .carousel-item {
+                width: calc(50% - (1 * 2rem / 2)); /* 2 items with 1 gap */
+            }
+        }
+        @media (max-width: 768px) { /* Mobile */
+            .carousel-item {
+                width: 100%; /* 1 item per view */
+            }
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .carousel-button {
+            background-color: #6d28d9;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            font-size: 1.125rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 0 0.5rem;
+        }
+        .carousel-button:hover {
+            background-color: #5b21b6;
+            transform: translateY(-2px);
+        }
+        .carousel-button:disabled {
+            background-color: #a78bfa;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body>
@@ -95,7 +162,7 @@
     <section class="hero-bg text-white pt-32 pb-20 relative">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-5xl md:text-6xl font-bold mb-6" style="font-family: 'Playfair Display', serif;">Discover Premium Deals with Zenor Store</h2>
-            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Shop curated Amazon products for unmatched quality and exclusive savings.</p>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Shop curated high-quality products at exclusive savings.</p>
             <a href="https://www.amazon.com/b?node=53623840011&linkCode=ll2&tag=bernard060-20&linkId=e3c20b2a388e741e3681249260462357&language=en_US&ref_=as_li_ss_tl" target="_blank" class="cta-button inline-block text-white px-10 py-4 rounded-full font-semibold text-lg">Shop Top Picks</a>
         </div>
         <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-gray-50 to-transparent"></div>
@@ -104,16 +171,25 @@
     <!-- Trust Signals -->
     <section class="bg-white py-12">
         <div class="container mx-auto px-6 flex flex-wrap justify-center gap-12">
-            <div class="flex items-center space-x-3 trust-badge">
-                <img src="https://via.placeholder.com/50" alt="Secure Payment" class="w-12 h-12">
+            <div class="flex items-center space-x-3 trust-badge animate-on-scroll">
+                <!-- SVG for Secure Payments -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-green-500">
+                    <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clip-rule="evenodd" />
+                </svg>
                 <span class="text-gray-700 font-semibold">Secure Payments</span>
             </div>
-            <div class="flex items-center space-x-3 trust-badge">
-                <img src="https://via.placeholder.com/50" alt="Fast Shipping" class="w-12 h-12">
+            <div class="flex items-center space-x-3 trust-badge animate-on-scroll">
+                <!-- SVG for Fast Shipping -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-blue-500">
+                    <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h12a3 3 0 013 3v10a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm4.5 9.75a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75z" clip-rule="evenodd" />
+                </svg>
                 <span class="text-gray-700 font-semibold">Fast Shipping</span>
             </div>
-            <div class="flex items-center space-x-3 trust-badge">
-                <img src="https://via.placeholder.com/50" alt="Trusted by Thousands" class="w-12 h-12">
+            <div class="flex items-center space-x-3 trust-badge animate-on-scroll">
+                <!-- SVG for Trusted by Thousands -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-yellow-500">
+                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.074 1.901-1.074 2.349 0l.512 1.224 1.372.24c1.1.194 1.676 1.517.994 2.415l-.83 1.127 1.28 1.055c.877.722.392 2.18-.666 2.456l-1.64.427-.615 1.564c-.448 1.074-1.901 1.074-2.349 0l-.615-1.564-1.64-.427c-1.058-.276-1.543-1.734-.666-2.456l1.28-1.055-.83-1.127c-.682-.898-.106-2.221.994-2.415l1.372-.24.512-1.224z" clip-rule="evenodd" />
+                </svg>
                 <span class="text-gray-700 font-semibold">Trusted by Thousands</span>
             </div>
         </div>
@@ -122,53 +198,11 @@
     <!-- Featured Products -->
     <section id="products" class="container mx-auto px-6 py-16">
         <h2 class="text-4xl font-bold text-center mb-12 text-purple-900" style="font-family: 'Playfair Display', serif;">Curated Favorites</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- Product Card 1 -->
-            <div class="product-card bg-white overflow-hidden animate-on-scroll">
-                <img src="https://via.placeholder.com/300x200" alt="Product 1" class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Premium Wireless Headphones</h3>
-                    <p class="text-gray-600 mb-4">Crystal-clear audio with advanced noise cancellation for an immersive experience.</p>
-                    <p class="text-lg font-bold text-purple-900 mb-4">$99.99 <span class="line-through text-gray-400">$129.99</span></p>
-                    <a href="https://www.amazon.com/b?node=53623840011&linkCode=ll2&tag=bernard060-20&linkId=e3c20b2a388e741e3681249260462357&language=en_US&ref_=as_li_ss_tl" target="_blank" class="cta-button inline-block text-white px-6 py-2 rounded-full font-semibold">Shop Now</a>
-                </div>
-            </div>
-
-            <!-- Product Card 2 -->
-            <div class="product-card bg-white overflow-hidden animate-on-scroll">
-                <img src="https://via.placeholder.com/300x200" alt="Product 2" class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Smart Home Assistant</h3>
-                    <p class="text-gray-600 mb-4">Seamless voice control for your smart home, with top-tier compatibility.</p>
-                    <p class="text-lg font-bold text-purple-900 mb-4">$49.99 <span class="line-through text-gray-400">$69.99</span></p>
-                    <a href="https://www.amazon.com/b?node=53623840011&linkCode=ll2&tag=bernard060-20&linkId=e3c20b2a388e741e3681249260462357&language=en_US&ref_=as_li_ss_tl" target="_blank" class="cta-button inline-block text-white px-6 py-2 rounded-full font-semibold">Shop Now</a>
-                </div>
-            </div>
-
-            <!-- Product Card 3 -->
-            <div class="product-card bg-white overflow-hidden animate-on-scroll">
-                <img src="https://via.placeholder.com/300x200" alt="Product 3" class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">4K Ultra HD Smart TV</h3>
-                    <p class="text-gray-600 mb-4">Vivid visuals and smart features for an unparalleled viewing experience.</p>
-                    <p class="text-lg font-bold text-purple-900 mb-4">$399.99 <span class="line-through text-gray-400">$499.99</span></p>
-                    <a href="https://www.amazon.com/b?node=53623840011&linkCode=ll2&tag=bernard060-20&linkId=e3c20b2a388e741e3681249260462357&language=en_US&ref_=as_li_ss_tl" target="_blank" class="cta-button inline-block text-white px-6 py-2 rounded-full font-semibold">Shop Now</a>
-                </div>
-            </div>
-
-            <!-- Product Card 4 -->
-            <div class="product-card bg-white overflow-hidden animate-on-scroll">
-                <img src="https://via.placeholder.com/300x200" alt="Product 4" class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Fitness Tracker Pro</h3>
-                    <p class="text-gray-600 mb-4">Advanced sensors to monitor your health and fitness goals with precision.</p>
-                    <p class="text-lg font-bold text-purple-900 mb-4">$79.99 <span class="line-through text-gray-400">$99.99</span></p>
-                    <a href="https://www.amazon.com/b?node=53623840011&linkCode=ll2&tag=bernard060-20&linkId=e3c20b2a388e741e3681249260462357&language=en_US&ref_=as_li_ss_tl" target="_blank" class="cta-button inline-block text-white px-6 py-2 rounded-full font-semibold">Shop Now</a>
-                </div>
-            </div>
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Product cards will be rendered here by JavaScript -->
         </div>
-        <div class="text-center mt-12">
-            <a href="https://www.amazon.com/b?node=53623840011&linkCode=ll2&tag=bernard060-20&linkId=e3c20b2a388e741e3681249260462357&language=en_US&ref_=as_li_ss_tl" target="_blank" class="text-purple-900 font-semibold hover:underline text-lg">Explore More Products</a>
+        <div class="text-center mt-12 animate-on-scroll">
+            <a href="https://www.amazon.com/b?node=53623840011&linkCode=ll2&tag=bernard060-20&linkId=e3c20b2a388e741e3681249260462357&language=en_US&ref_=as_li_ss_tl" target="_blank" class="cta-button inline-block text-white px-10 py-4 rounded-full font-semibold text-lg">Explore More Products</a>
         </div>
     </section>
 
@@ -176,41 +210,17 @@
     <section id="deals" class="bg-gray-100 py-16">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold text-center mb-12 text-purple-900" style="font-family: 'Playfair Display', serif;">Exclusive Deals</h2>
-            <div class="deal-timer text-center text-white py-4 rounded-lg mb-8">
+            <div class="deal-timer text-center text-white py-4 rounded-lg mb-8 animate-on-scroll">
                 <p class="text-xl font-semibold">Act Fast! Deals End in: <span id="timer">23:59:59</span></p>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Deal Card 1 -->
-                <div class="product-card bg-white overflow-hidden animate-on-scroll">
-                    <img src="https://via.placeholder.com/300x200" alt="Deal 1" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Portable Bluetooth Speaker</h3>
-                        <p class="text-gray-600 mb-4">Rich sound for any adventure, now at an unbeatable price.</p>
-                        <p class="text-lg font-bold text-rose-600 mb-4">$29.99 <span class="line-through text-gray-400">$59.99</span></p>
-                        <a href="https://www.amazon.com/b?node=53623840011&linkCode=ll2&tag=bernard060-20&linkId=e3c20b2a388e741e3681249260462357&language=en_US&ref_=as_li_ss_tl" target="_blank" class="inline-block bg-rose-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-rose-700 transition">Grab Deal</a>
-                    </div>
+            
+            <div class="relative">
+                <div id="deal-carousel" class="carousel-container">
+                    <!-- Deal cards will be rendered here by JavaScript -->
                 </div>
-
-                <!-- Deal Card 2 -->
-                <div class="product-card bg-white overflow-hidden animate-on-scroll">
-                    <img src="https://via.placeholder.com/300x200" alt="Deal 2" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Wireless Charger</h3>
-                        <p class="text-gray-600 mb-4">Fast, reliable charging for all your devices, limited stock.</p>
-                        <p class="text-lg font-bold text-rose-600 mb-4">$19.99 <span class="line-through text-gray-400">$39.99</span></p>
-                        <a href="https://www.amazon.com/b?node=53623840011&linkCode=ll2&tag=bernard060-20&linkId=e3c20b2a388e741e3681249260462357&language=en_US&ref_=as_li_ss_tl" target="_blank" class="inline-block bg-rose-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-rose-700 transition">Grab Deal</a>
-                    </div>
-                </div>
-
-                <!-- Deal Card 3 -->
-                <div class="product-card bg-white overflow-hidden animate-on-scroll">
-                    <img src="https://via.placeholder.com/300x200" alt="Deal 3" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Smart Light Bulbs (Pack of 2)</h3>
-                        <p class="text-gray-600 mb-4">Voice-controlled lighting at a 50% discount, only while supplies last.</p>
-                        <p class="text-lg font-bold text-rose-600 mb-4">$24.99 <span class="line-through text-gray-400">$49.99</span></p>
-                        <a href="https://www.amazon.com/b?node=53623840011&linkCode=ll2&tag=bernard060-20&linkId=e3c20b2a388e741e3681249260462357&language=en_US&ref_=as_li_ss_tl" target="_blank" class="inline-block bg-rose-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-rose-700 transition">Grab Deal</a>
-                    </div>
+                <div class="carousel-controls">
+                    <button id="prev-deal" class="carousel-button" aria-label="Previous Deal">Previous</button>
+                    <button id="next-deal" class="carousel-button" aria-label="Next Deal">Next</button>
                 </div>
             </div>
         </div>
@@ -221,22 +231,32 @@
         <h2 class="text-4xl font-bold text-center mb-12 text-purple-900" style="font-family: 'Playfair Display', serif;">Why Choose Zenor Store?</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="text-center animate-on-scroll">
-                <img src="https://via.placeholder.com/80" alt="Curated Quality" class="w-20 h-20 mx-auto mb-4">
+                <!-- SVG for Curated Quality -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-20 h-20 mx-auto mb-4 text-indigo-600">
+                    <path fill-rule="evenodd" d="M11.54 22.351A2.75 2.75 0 0015 21.25V4.847a3.5 3.5 0 00-.872-2.21l-2.007-2.583a1.125 1.125 0 00-1.748 0L9.872 2.637A3.5 3.5 0 009 4.847v16.403a2.75 2.75 0 003.5 1.104zM12.5 5.5a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M7.155 6.339A.75.75 0 006 7.5a.75.75 0 00.155.155L9.428 11.5l-2.257 2.257a.75.75 0 001.06 1.06l2.257-2.257 3.273 3.273a.75.75 0 101.06-1.06L12.5 11.5l3.273-3.273a.75.75 0 00-1.06-1.06L12.5 10.428l-2.257-2.257a.75.75 0 00-.155-.155z" clip-rule="evenodd" />
+                </svg>
                 <h3 class="text-xl font-semibold mb-2 text-gray-800">Handpicked Excellence</h3>
-                <p class="text-gray-600">We curate only the finest Amazon products for unmatched quality.</p>
+                <p class="text-gray-600">We curate only the finest products for unmatched quality.</p>
             </div>
             <div class="text-center animate-on-scroll">
-                <img src="https://via.placeholder.com/80" alt="Unbeatable Deals" class="w-20 h-20 mx-auto mb-4">
+                <!-- SVG for Unbeatable Deals -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-20 h-20 mx-auto mb-4 text-rose-500">
+                    <path fill-rule="evenodd" d="M12.97 3.97a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06l6.22-6.22H3a.75.75 0 010-1.5h16.19l-6.22-6.22a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                </svg>
                 <h3 class="text-xl font-semibold mb-2 text-gray-800">Exclusive Savings</h3>
                 <p class="text-gray-600">Unlock limited-time deals designed to maximize your value.</p>
             </div>
             <div class="text-center animate-on-scroll">
-                <img src="https://via.placeholder.com/80" alt="Trusted by Shoppers" class="w-20 h-20 mx-auto mb-4">
+                <!-- SVG for Trusted Reliability -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-20 h-20 mx-auto mb-4 text-sky-500">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.536-1.676-1.676a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.06 0l3.75-5.25z" clip-rule="evenodd" />
+                </svg>
                 <h3 class="text-xl font-semibold mb-2 text-gray-800">Trusted Reliability</h3>
-                <p class="text-gray-600">Shop confidently with Amazon’s trusted delivery and returns.</p>
+                <p class="text-gray-600">Shop confidently with trusted delivery and returns.</p>
             </div>
         </div>
-        <div class="text-center mt-12">
+        <div class="text-center mt-12 animate-on-scroll">
             <a href="https://www.amazon.com/b?node=53623840011&linkCode=ll2&tag=bernard060-20&linkId=e3c20b2a388e741e3681249260462357&language=en_US&ref_=as_li_ss_tl" target="_blank" class="cta-button inline-block text-white px-10 py-4 rounded-full font-semibold text-lg">Start Shopping</a>
         </div>
     </section>
@@ -247,7 +267,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
                     <h3 class="text-2xl font-bold mb-4" style="font-family: 'Playfair Display', serif;">Zenor Store</h3>
-                    <p class="text-sm">Your premier destination for curated Amazon products and exclusive deals.</p>
+                    <p class="text-sm">Your premier destination for curated products and exclusive deals.</p>
                 </div>
                 <div>
                     <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
@@ -263,7 +283,7 @@
                 </div>
             </div>
             <div class="section-divider my-8"></div>
-            <p class="text-center text-sm">© 2025 Zenor Store. All rights reserved.</p>
+            <p class="text-center text-sm">© <span id="current-year"></span> Zenor Store. All rights reserved.</p>
         </div>
     </footer>
 
@@ -271,41 +291,257 @@
         // GSAP Animations
         gsap.registerPlugin(ScrollTrigger);
 
-        // Animate elements on scroll
-        gsap.utils.toArray('.animate-on-scroll').forEach((element) => {
-            gsap.fromTo(
-                element,
-                { opacity: 0, y: 60 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: element,
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse',
-                    },
-                }
-            );
-        });
+        // Dynamic Copyright Year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Product Data 
+        const products = [
+            {
+                id: 'toiletlight', 
+                name: 'ToiLight The Original Toilet Bowl Night Light', 
+                description: 'Fun & Useful Bathroom Motion Sensor Tech Gadget. Funny Novelty Birthday Gift Idea. Stocking Stuffer for Him Her Guys Men Mom Brother', 
+                price: 9.99, 
+                oldPrice: 19.99, 
+                imageUrl: 'https://m.media-amazon.com/images/I/71RG1p8C-1L._AC_SL1500_.jpg', 
+                amazonLink: 'https://amzn.to/4532yny'
+            },
+            { // New Product: Neck Fan
+                id: 'neckfan',
+                name: 'Neck Fan, Hands Free Bladeless Neck Fans Portable Rechargeable',
+                description: '6000 mAh Battery Operated Wearable Personal Fan, Cooling Neck Fan, 3 Speeds, USB Fan Gifts for Men, Women, Travel, Outdoor',
+                price: 29.99,
+                oldPrice: 49.99, // Added a plausible old price for discount display
+                imageUrl: 'https://m.media-amazon.com/images/I/61yOQaHc2QL._AC_SL1500_.jpg',
+                amazonLink: 'https://amzn.to/3U0o5Iw'
+            },
+            { // New Product: Water Heater
+                id: 'waterheater',
+                name: 'Stiebel Eltron 239223 Tankless Water Heater – Tempra 29 Plus',
+                description: 'Electric, On Demand Hot Water, Eco, White, 23',
+                price: 770.00,
+                oldPrice: 850.00, // Added a plausible old price for discount display
+                imageUrl: 'https://m.media-amazon.com/images/I/51lg9XGuLbL._AC_SL1500_.jpg',
+                amazonLink: 'https://amzn.to/3UwEfJP'
+            },
+            { // New Product: Portable Dryer
+                id: 'portabledryer',
+                name: 'Portable Clothes Dryer Upgraded',
+                description: 'Quickly Dry A Large Number of Clothes and Shoes. Travel Mini 900w Dryer Machine, Compact Dryer for Family, Apartment, RV and Travel',
+                price: 49.99,
+                oldPrice: 69.99, // Added a plausible old price for discount display
+                imageUrl: 'https://m.media-amazon.com/images/I/61vxSEKMYHL._AC_SL1500_.jpg',
+                amazonLink: 'https://amzn.to/458W1b4'
+            }
+        ];
+
+        const deals = [
+            { // New Deal: FlexSolar 100W Portable Solar Panels
+                id: 'flexsolar-100w',
+                name: 'FlexSolar 100W Portable Solar Panels Chargers',
+                description: 'with PD3.0 USB-C,QC3.0 USB-A and DC Outputs Foldable IP67 Waterproof Power Emergency Camping for Small Power Station Generator,Phones, Power Banks',
+                price: 89.99,
+                oldPrice: 129.99,
+                imageUrl: 'https://m.media-amazon.com/images/I/81c7GCJEwNL._AC_SL1500_.jpg',
+                amazonLink: 'https://amzn.to/4l3grIm'
+            },
+            { // New Deal: Renogy Solar Panels, 100W Portable Lightweight Solar Suitcase
+                id: 'renogy-suitcase',
+                name: 'Renogy Solar Panels, 100W Portable Lightweight Solar Suitcase',
+                description: 'N-Type 25% High Efficiency Foldable Panel 24.64x20.62, Fast Setup with Kickstands, IP67 Waterproof for RV Camping Off-Grid Blackouts',
+                price: 127.50,
+                oldPrice: 169.99,
+                imageUrl: 'https://m.media-amazon.com/images/I/61hN99zq1UL._AC_SL1500_.jpg',
+                amazonLink: 'https://amzn.to/44PZa0x'
+            },
+            { // New Deal: Renogy 2PCS Solar Panels 100 Watt 12 Volt
+                id: 'renogy-2pack',
+                name: 'Renogy 2PCS Solar Panels 100 Watt 12 Volt',
+                description: 'High-Efficiency Monocrystalline PV Module Power Charger for RV Marine Rooftop Farm Battery and Other Off-Grid Applications, 2-Pack 100W',
+                price: 138.59,
+                oldPrice: 189.99,
+                imageUrl: 'https://m.media-amazon.com/images/I/71lzz6ZkWbL._AC_SL1500_.jpg',
+                amazonLink: 'https://amzn.to/4o9J5Kw'
+            },
+            { // New Deal: Jackery Explorer 2000 v2 Portable Power Station
+                id: 'jackery-explorer-2000v2',
+                name: 'Jackery Explorer 2000 v2 Portable Power Station',
+                description: '2042Wh LiFePO4 Home Backup Battery, 2200W Solar Generator, USB-C PD 100W Fast Charging for Emergencies, Power Outages, Camping(Solar Panel Optional)',
+                price: 1499.00,
+                oldPrice: 1999.00,
+                imageUrl: 'https://m.media-amazon.com/images/I/81lUGah6TUL._AC_SL1500_.jpg',
+                amazonLink: 'https://amzn.to/44OBbPi'
+            },
+            { // New Deal: Battery Powered Air Conditioner 6000mAh
+                id: 'battery-ac',
+                name: 'Battery Powered Air Conditioner 6000mAh',
+                description: 'Rechargeable Small Air Conditioner for Room,Personal Air Cooler with Mist,Timer,Light,Portable Mini AC Unit Cooling Fan for Camping,Tent,Car,Desktop,Bedroom',
+                price: 69.98,
+                oldPrice: 99.99,
+                imageUrl: 'https://m.media-amazon.com/images/I/81HdSb3KzOL._AC_SL1500_.jpg',
+                amazonLink: 'https://amzn.to/46wPs4w'
+            },
+            { // New Deal: RUNHOOD Rallye 600 Basic Portable Power Station
+                id: 'runhood-rallye-600',
+                name: 'RUNHOOD Rallye 600 Basic Portable Power Station',
+                description: '648Wh Modular Design, 600W AC Output, Hot-Swappable Batteries, External Charging with SC200, Expandable Solar Generator for CPAP, Camping, Emergency',
+                price: 499.00,
+                oldPrice: 699.00,
+                imageUrl: 'https://m.media-amazon.com/images/I/61jFJWeGYLL._AC_SL1500_.jpg',
+                amazonLink: 'https://amzn.to/3IMoTyk'
+            },
+            { // New Deal: Runhood Rallye 1200 Pro Bag Solar Generator
+                id: 'runhood-rallye-1200',
+                name: 'Runhood Rallye 1200 Pro Bag Solar Generator',
+                description: '4×324Wh Hot-Swappable Batteries (1296Wh), 1200W AC Output, SERI 100W Solar Panel, SC200, UE256, Modular Kit with Carry Bag for Outdoor/Home Backup',
+                price: 1180.00,
+                oldPrice: 1499.00,
+                imageUrl: 'https://m.media-amazon.com/images/I/71FzkRLGG4L._AC_SL1500_.jpg',
+                amazonLink: 'https://amzn.to/3TWRQdj'
+            }
+        ];
+
+        // Function to render product cards
+        function renderProducts(productsArray, containerId, dealContext = false) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.error(`Container with ID "${containerId}" not found.`);
+                return; // Exit if container not found
+            }
+            container.innerHTML = ''; // Clear existing content
+
+            productsArray.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = `product-card bg-white overflow-hidden animate-on-scroll ${dealContext ? 'carousel-item' : ''}`;
+                productCard.innerHTML = `
+                    <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">${product.name}</h3>
+                        <p class="text-gray-600 mb-4">${product.description}</p>
+                        <p class="text-lg font-bold ${dealContext ? 'text-rose-600' : 'text-purple-900'} mb-4">$${product.price.toFixed(2)} <span class="line-through text-gray-400">$${product.oldPrice.toFixed(2)}</span></p>
+                        <a href="${product.amazonLink || '#'}" target="_blank" class="${dealContext ? 'inline-block bg-rose-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-rose-700 transition' : 'cta-button inline-block text-white px-6 py-2 rounded-full font-semibold'}">
+                            ${dealContext ? 'Grab Deal' : 'Shop Now'}
+                        </a>
+                    </div>
+                `;
+                container.appendChild(productCard);
+            });
+            console.log(`Rendered ${productsArray.length} products into #${containerId}`);
+
+            // Important: Apply GSAP animations only after elements are rendered
+            gsap.utils.toArray('.animate-on-scroll').forEach((element) => {
+                gsap.fromTo(
+                    element,
+                    { opacity: 0, y: 60 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: element,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse',
+                        },
+                        immediateRender: true,
+                        overwrite: true
+                    }
+                );
+            });
+            console.log("GSAP animations re-initialized for .animate-on-scroll elements.");
+        }
 
         // Countdown Timer for Deals
         function startTimer() {
             const timerElement = document.getElementById('timer');
-            let timeLeft = 24 * 60 * 60; // 24 hours in seconds
-            setInterval(() => {
-                if (timeLeft <= 0) {
-                    timeLeft = 24 * 60 * 60; // Reset timer
+            // Target a specific future date/time (e.g., 24 hours from now)
+            let countdownDate = new Date();
+            countdownDate.setHours(countdownDate.getHours() + 24); // 24 hours from now
+            countdownDate = countdownDate.getTime();
+
+            const timerInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = countdownDate - now;
+
+                if (distance < 0) {
+                    clearInterval(timerInterval);
+                    timerElement.textContent = "EXPIRED!";
+                    return;
                 }
-                timeLeft--;
-                const hours = Math.floor(timeLeft / 3600);
-                const minutes = Math.floor((timeLeft % 3600) / 60);
-                const seconds = timeLeft % 60;
+
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
                 timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }, 1000);
         }
         startTimer();
+
+        // Carousel for Deals Section
+        const dealCarousel = document.getElementById('deal-carousel');
+        const prevDealBtn = document.getElementById('prev-deal');
+        const nextDealBtn = document.getElementById('next-deal');
+        let currentDealIndex = 0;
+
+        function updateDealCarousel() {
+            // Check if carousel elements exist
+            if (!dealCarousel || dealCarousel.children.length === 0) {
+                if (prevDealBtn) prevDealBtn.disabled = true;
+                if (nextDealBtn) nextDealBtn.disabled = true;
+                return;
+            }
+
+            const targetItem = dealCarousel.children[currentDealIndex];
+            if (targetItem) {
+                targetItem.scrollIntoView({
+                    behavior: 'smooth',
+                    inline: 'start'
+                });
+            }
+
+            // Update button states (ensure buttons exist before trying to set disabled)
+            if (prevDealBtn) prevDealBtn.disabled = currentDealIndex === 0;
+            if (nextDealBtn) prevDealBtn.disabled = currentDealIndex === (deals.length - 1); // Fix: this was setting prevDealBtn.disabled twice
+            if (nextDealBtn) nextDealBtn.disabled = currentDealIndex === (deals.length - 1);
+        }
+
+        if (nextDealBtn) { // Check if buttons exist before adding listeners
+            nextDealBtn.addEventListener('click', () => {
+                if (currentDealIndex < deals.length - 1) {
+                    currentDealIndex++;
+                } else {
+                    currentDealIndex = 0; // Loop back to the first item
+                }
+                updateDealCarousel();
+            });
+        }
+
+        if (prevDealBtn) { // Check if buttons exist before adding listeners
+            prevDealBtn.addEventListener('click', () => {
+                if (currentDealIndex > 0) {
+                    currentDealIndex--;
+                } else {
+                    currentDealIndex = deals.length - 1; // Loop back to the last item
+                }
+                updateDealCarousel();
+            });
+        }
+
+
+        // IMPORTANT: Call rendering and carousel update ONLY after the DOM is fully loaded
+        window.addEventListener('load', () => {
+            console.log("Window loaded. Rendering products and deals...");
+            renderProducts(products, 'product-grid');
+            renderProducts(deals, 'deal-carousel', true);
+            updateDealCarousel(); // Initial positioning for carousel
+            console.log("Products and deals rendered. Initial carousel update complete.");
+        });
+
+        window.addEventListener('resize', () => {
+            // Reset index to 0 on resize to avoid mispositioning when layout changes
+            currentDealIndex = 0;
+            updateDealCarousel();
+        });
+
 
         // Smooth Scroll for Navigation
         document.querySelectorAll('nav a').forEach(anchor => {
@@ -313,18 +549,34 @@
                 e.preventDefault();
                 const targetId = this.getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80, // Adjust for fixed header height
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
+
+        // Newsletter Signup Form Handling
+        const newsletterForm = document.querySelector('.max-w-3xl.mx-auto.px-6.mt-16.text-center form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const emailInput = newsletterForm.querySelector('input[type="email"]');
+                if (emailInput.value) {
+                    alert('Thank you for subscribing to our newsletter! You\'ll receive updates soon.');
+                    emailInput.value = '';
+                } else {
+                    alert('Please enter a valid email address.');
+                }
+            });
+        }
 
         // Track Clicks for Analytics
         document.querySelectorAll('.product-card a, .cta-button').forEach(link => {
             link.addEventListener('click', () => {
-                console.log('Affiliate link clicked:', link.href);
-                // Add analytics tracking (e.g., Google Analytics) here
+                console.log('Product link clicked:', link.href);
             });
         });
     </script>
